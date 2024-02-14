@@ -1,25 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from "react-redux";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { store } from "./redux/store";
+import Login from "./Allpages/Login";
+import { Restricted } from "./components";
+import Dashboard from "./Allpages/Dashboard";
+import ErrorPage from "./Allpages/Errorpage";
+import Signup from "./Allpages/Signup";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <Restricted>
+        <Dashboard />
+      </Restricted>
+    ),
+  },
+])
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
   );
 }
 
